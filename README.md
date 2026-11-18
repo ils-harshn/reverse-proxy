@@ -70,7 +70,7 @@ Redirect rewrite: if upstream returns `Location: https://upstream/...`, clients 
 ## PythonAnywhere
 
 1. Upload the project to e.g. `/home/reverseproxy/reverse-proxy`.
-2. In a **Bash console** (with venv if you use one): `pip install -r requirements.txt` — must include **a2wsgi**.
+2. In a **Bash console** (with venv if you use one): `pip install -r requirements.txt`.
 3. Edit `.env`: `BASE_URL`, `PUBLIC_URL=https://reverseproxy.pythonanywhere.com`, `IGNORE_ENV=true`.
 4. **Web** → WSGI file: add project to `sys.path` and `from app import app as application` (see below).
 5. **Reload** the web app.

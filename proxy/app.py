@@ -11,21 +11,17 @@ from proxy.headers import (
     filter_response_headers,
     rewrite_location,
 )
+from proxy.upstream import build_upstream_url as upstream_url_for_path
 
 REDIRECT_STATUS = {301, 302, 303, 307, 308}
 
 
 def build_upstream_url(settings: Settings, request: Request) -> str:
-    parsed = urlparse(settings.base_url)
-    origin = f"{parsed.scheme}://{parsed.netloc}"
-    prefix = parsed.path.rstrip("/")
-    path = request.url.path
-    if path == "/":
-        upstream_path = prefix or "/"
-    else:
-        upstream_path = f"{prefix}{path}" if prefix else path
-    query = f"?{request.url.query}" if request.url.query else ""
-    return f"{origin}{upstream_path}{query}"
+    return upstream_url_for_path(
+        settings,
+        request.url.path,
+        request.url.query,
+    )
 
 
 def create_app(settings: Settings | None = None) -> Starlette:
